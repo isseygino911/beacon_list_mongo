@@ -1,11 +1,53 @@
 button {
   color: white;
+  border-radius: 5px;
+  border: none;
+  height: 40px;
+  width: 70px;
+  margin: 15px;
 }
 
-#delete {
+#save {
+  background-color: rgb(52, 108, 213);
+}
+
+#contentWapper {
+  margin: auto;
+}
+
+#title {
+  text-align: center;
+  margin-bottom: 0;
+}
+
+table {
+  width: 50vw;
+  margin: auto;
+}
+table thead tr {
+  height: 45px;
+}
+table thead tr th {
+  border: 1px solid darkgrey;
+  border-spacing: 10px;
+}
+table tbody {
+  text-align: center;
+}
+table tbody tr td form #delete {
   background-color: #ff4444;
 }
-
-#finished {
+table tbody tr td form #finished {
   background-color: #00c851;
+}
+
+#searchBar {
+  width: 80vw;
+  margin: auto;
+  text-align: center;
+  padding: 25px 25px;
+}
+#searchBar input {
+  height: 30px;
+  width: 240px;
 }

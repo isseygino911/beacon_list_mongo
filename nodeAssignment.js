@@ -23,7 +23,7 @@ app.get('/', (req, res) => {
     fs.readFile(file, (err,data)=>{
         let todos = JSON.parse(data)
         if(err) throw err
-        res.render("getAllTodos",{todos, content})
+        res.render("index",{todos, content})
     })
 });
 
@@ -31,9 +31,9 @@ app.get('/', (req, res) => {
 
 app.delete('/todo/todos/:id',(req, res) => {
     const id = req.params.id
-    fs.readFile(file,(err,data)=>{
+    fs.readFile(file,async (err,data)=>{
         let todos = JSON.parse(data)
-        let found = todos.find((item) => {
+        let found = await todos.find((item) => {
             return parseInt(item.id) == id
         })
         console.log(found)
@@ -68,8 +68,8 @@ app.put('/todo/todos/:id', (req, res) => {
             console.log(todos)
              fs.writeFile(file,JSON.stringify(todos), (err) => {
                  if(err) throw err
+                 res.redirect("/")
             })
-            res.redirect("/")
         }else{
             res.send('no such todo')
         }
@@ -81,7 +81,7 @@ app.put('/todo/todos/:id', (req, res) => {
 app.post('/todo/todos', (req, res) => {
     fs.readFile(file, (err,data) => {
         let todos = JSON.parse(data)
-        let createId = todos.length + 1
+        let createId = todos.length == 0 ? 1 : todos[todos.length -1].id + 1
         let newObj = {
             id: createId,
             title: req.body.title ? req.body.title : "",

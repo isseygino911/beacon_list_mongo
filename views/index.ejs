@@ -5,14 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=hi, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="/public/css/main.css">
 </head>
 <body>
-    <div>
-        <div style="margin: auto"><%- include('./title.ejs')  %></div>
-        <div style="margin: auto"><%- include('./getAllTodos.ejs')  %></div>
-        <div style=" width: 50vw"><%- include('./searchBar.ejs')  %> </div>
-        <div><%- include('./getAllTodos.ejs')  %> </div>
-    </div> 
+    <div class="contentWarpper"><%- include('./title.ejs')  %></div>
+    <div class="contentWarpper"><%- include('./searchBar.ejs')  %> </div>
+    <div class="contentWarpper"><%- include('./getAllTodos.ejs')  %></div>
 </body>
 </html>

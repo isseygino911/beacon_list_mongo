@@ -1,14 +1,65 @@
 $red: #ff4444;
 $success: #00c851;
+$blue:  rgb(52,108,213);
 
 button {
     color:white;
+    border-radius:5px;
+    border: none;
+    height: 40px;
+    width: 70px;
+    margin: 15px
 }
 
-#delete {
-    background-color: $red;
+#save{
+    background-color: $blue;
 }
 
-#finished {
-    background-color: $success;
+#contentWapper {
+    margin:auto;
 }
+
+#title {
+    text-align: center;
+    margin-bottom: 0;
+}
+
+table {
+    width: 50vw;
+    margin: auto;
+    thead{
+        tr {
+            height: 45px;
+            th{
+                border:1px solid darkgrey;
+                border-spacing: 10px
+            }
+         }
+    }
+    tbody {
+        text-align:center;
+        tr{
+            td{
+                form {
+                    #delete {
+                        background-color: $red;
+                    } 
+                    #finished {
+                        background-color: $success;
+                    }
+                }
+            }
+        }
+    }
+}
+
+#searchBar {
+    width: 80vw; margin: auto;
+    text-align: center; 
+    padding: 25px 25px;
+    input {
+        height: 30px;
+        width: 240px;
+    }
+}
+
