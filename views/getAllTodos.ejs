@@ -1,0 +1,35 @@
+<h3><%= content.title %></h3>
+<%- include('./searchBar.ejs')  %> 
+ <table style="width: 50vw; margin: auto">
+    <thead style="border: 1px solid black">
+        <tr style="text-align:center; height: 45px">
+            <th style="border: 1px solid black">No.</th>
+            <th style="border: 1px solid black">Todo item</th>
+            <th style="border: 1px solid black">status</th>
+            <th style="border: 1px solid black">Actions</th>
+        </tr>
+    </thead>
+    <Tbody style="text-align:center">
+        <% todos.map(el => { %>
+            <tr style="<%= el.status !== 'Completed' ? 'background-color: white; height: 45px': 'background-color:#b8d0bb; height: 45px' %>"> 
+                <td> <%= el.id %> </td>
+                <td> <%= el.title %> </td>
+                <td> <%= el.status %> </td>
+                <td style="display: inline-flex;">
+                    <form action="/todo/todos/<%= el.id %>?_method=DELETE" method="POST" style="margin: auto; ">
+                        <button 
+                            type="submit" 
+                            id="delete" 
+                            style="color: white; background-color:#ff4444; border-radius: 5px; border:none; height: 40px; margin:15px; width: 70px"> Delete </button>
+                    </form>
+                    <form action="/todo/todos/<%= el.id %>?_method=PUT" method="POST" style="margin: auto;">
+                        <button 
+                            type="submit" 
+                            id="finished" 
+                            style="color: white; background-color:#00c851; border-radius: 5px; border:none; height:40px; width: 70px">Finished</button> 
+                    </form>
+                </td>    
+            </tr>
+        <% }) %>     
+    </Tbody>
+</table>

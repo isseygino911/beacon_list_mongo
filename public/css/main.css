@@ -1,0 +1,11 @@
+button {
+  color: white;
+}
+
+#delete {
+  background-color: #ff4444;
+}
+
+#finished {
+  background-color: #00c851;
+}
