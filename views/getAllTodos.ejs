@@ -9,7 +9,7 @@
     </thead>
     <Tbody>
         <% todos.map(el => { %>
-            <tr style="<%= el.status !== 'Completed' ? 'background-color: white; height: 45px': 'background-color:#b8d0bb; height: 45px' %>"> 
+            <tr style=" <%= el.status !== 'Completed' ? 'background-color: white; height: 15px': 'background-color:#b8d0bb; height: 45px' %>"> 
                 <td> <%= el.id %> </td>
                 <td> <%= el.title %> </td>
                 <td> <%= el.status %> </td>

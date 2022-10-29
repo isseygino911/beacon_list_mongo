@@ -1,99 +1,73 @@
 const express = require('express')
 const app = express() 
+const mongoose = require('mongoose')
+const TodoModel = require('./models/TodoModel')
 const port = 3000;
-const fs = require('fs')
-const file= './public/todos.json'
 const bodyParser = require('body-parser')
 const methodOverride = require('method-override')
-const path = require('path')
-
-let currentTime = new Date()
-let content = {title: "Todo App"}
+require('dotenv').config()
 
 app.set("view engine", "ejs");
-
 app.use(express.json())
 app.use('/public', express.static(__dirname + "/public"))
 app.use(bodyParser.urlencoded({extended:false}))
 app.use(bodyParser.json())
 app.use(methodOverride('_method'))
+mongoose.connect(process.env.BEACON_TODO_DB)
+const content = {title: "Todo App"}
 
 // =========== get all todos ====================
 app.get('/', (req, res) => {
-    fs.readFile(file, (err,data)=>{
-        let todos = JSON.parse(data)
-        if(err) throw err
+    TodoModel.find({}).then((todos)=>{
+        console.log('Loding Successed')
         res.render("index",{todos, content})
+    }).catch((err) => {
+        console.log('Failed to load todos!', err)
     })
 });
 
 // ============= delete todo=======================
 
-app.delete('/todo/todos/:id',(req, res) => {
-    const id = req.params.id
-    fs.readFile(file,async (err,data)=>{
-        let todos = JSON.parse(data)
-        let found = await todos.find((item) => {
-            return parseInt(item.id) == id
-        })
-        console.log(found)
-        let idx = todos.indexOf(found)
-        todos.splice(idx,1)
-        fs.writeFile(file,JSON.stringify(todos), (err) => {
-            if(err) throw err
-        })
+app.delete('/todo/todos/:id', async (req, res) => {
+    const postId = req.params.id
+    await TodoModel.deleteOne({id: postId}).then(() => {
+        console.log(`post ${postId} has been deleted!`)
+    }).catch((err)=>{
+        console.log('err')
     })
-    res.redirect('/')
-   
+    res.redirect('/')   
 })
 
 // ======= update todo==============================
 
-app.put('/todo/todos/:id', (req, res) => {
-    const id = req.params.id
-    fs.readFile(file, (err,data) => {
-        let todos = JSON.parse(data)
-        let found = todos.find((item) => {
-            return parseInt(item.id) == id
-        })
-        if(found){
-            let newData = {
-                id: found.id,
-                title: found.title,
-                status: "Completed",
-                timestamp : currentTime
-            }
-            let idx = todos.indexOf(found)
-            todos.splice(idx,1,newData)
-            console.log(todos)
-             fs.writeFile(file,JSON.stringify(todos), (err) => {
-                 if(err) throw err
-                 res.redirect("/")
-            })
-        }else{
-            res.send('no such todo')
-        }
+app.put('/todo/todos/:id', async (req, res) => {
+    const postId = req.params.id
+    const todo = {
+        title: req.body.title,
+        status: "Completed "
+    }
+    await TodoModel.updateOne({_id: postId},todo).then(() => {
+        console.log('Todo updated!')
+    }).catch((err) => {
+        console.log(err)
     })
+    res.redirect('/')
 })
 
 // =========== post new todo ======================
 
-app.post('/todo/todos', (req, res) => {
-    fs.readFile(file, (err,data) => {
-        let todos = JSON.parse(data)
-        let createId = todos.length == 0 ? 1 : todos[todos.length -1].id + 1
-        let newObj = {
-            id: createId,
-            title: req.body.title ? req.body.title : "",
-            status: "In progress",
-            timestamp : currentTime
-        }
-        todos.push(newObj)
-        fs.writeFile(file,JSON.stringify(todos), (err) => {
-            if(err) throw err
-        })     
-        res.redirect("/")
+app.post('/todo/todos', async (req, res) => {
+    const todos = await TodoModel.find({})
+    const itemNumber = todos.length > 0 ? todos[todos.length - 1].itemNumber + 1 : 1
+    const title = req.body.title
+    const newTodo = new TodoModel({itemNumber: itemNumber, title: title})
+    await newTodo.save().then(() => {
+        console.log('New post created')
+    }).catch((err) =>{
+        console.log(err)
     })
+    res.redirect('/')
+
 })
 
 app.listen(port, () => {
