@@ -9,8 +9,8 @@
     </thead>
     <Tbody>
         <% todos.map(el => { %>
-            <tr style=" <%= el.status !== 'Completed' ? 'background-color: white; height: 15px': 'background-color:#b8d0bb; height: 45px' %>"> 
-                <td> <%= el.id %> </td>
+            <tr class="<%= el.status === 'Completed' ? 'finished' : 'inPrograss' %>"> 
+                <td> <%= el.itemNumber %> </td>
                 <td> <%= el.title %> </td>
                 <td> <%= el.status %> </td>
                 <td style="display: inline-flex;">

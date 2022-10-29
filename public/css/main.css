@@ -51,3 +51,13 @@ table tbody tr td form #finished {
   height: 30px;
   width: 240px;
 }
+
+.finished {
+  background-color: #b8d0bb;
+  height: 45px;
+}
+
+.inPrograss {
+  background-color: white;
+  height: 45px;
+}

@@ -44,7 +44,7 @@ app.put('/todo/todos/:id', async (req, res) => {
     const postId = req.params.id
     const todo = {
         title: req.body.title,
-        status: "Completed "
+        status: "Completed"
     }
     await TodoModel.updateOne({_id: postId},todo).then(() => {
         console.log('Todo updated!')
